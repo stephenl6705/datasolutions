@@ -33,17 +33,22 @@ class NewVisitorTest(unittest.TestCase):
         report = reports.find_element_by_id("id_report1")
         report.click()
         summary = self.browser.find_element_by_id("id_summary")
-        title = summary.find_element_by_tag_name("h1")
-        self.assertEqual(title.text,"CCI Dashboard","CCI Dashboard did not appear in the summary")
+        title = summary.find_element_by_tag_name("h2")
+        self.assertEqual(
+            title.text,"CCI Dashboard",
+            "CCI Dashboard did not appear in the summary -- its text was:\n%s" % (title.text,)
+        )
 
         # She clicks on the CCI Suite button and she finds it shows a new summary again
         reports = self.browser.find_element_by_id('reports')
         report = reports.find_element_by_id("id_report2")
         report.click()
         summary = self.browser.find_element_by_id("id_summary")
-        title = summary.find_element_by_tag_name("h1")
-        self.assertEqual(title.text,"CCI C-Suite")
-
+        title = summary.find_element_by_tag_name("h2")
+        self.assertEqual(
+            title.text,"CCI C-Suite",
+            "CCI C-Suite did not appear in the summary -- its text was:\n%s" % (title.text,)
+        )
 
         # She selects the "Nielsen Global Survey" link
         # and it opens up to the Nielsen Global Survey page
