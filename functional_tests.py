@@ -22,16 +22,16 @@ class NewVisitorTest(unittest.TestCase):
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Data-Solutions',header_text)
 
-        # She sees links to a list of reports including CCI Dashboard.
-        reports = self.browser.find_element_by_id('reports')
-        report_list = reports.find_elements_by_tag_name('input')
+        # She sees links to a list of topics including CCI Dashboard.
+        topics = self.browser.find_element_by_id('topics')
+        topic_list = topics.find_elements_by_tag_name('input')
         self.assertTrue(
-            any(report.get_attribute('value') == 'CCI Dashboard' for report in report_list),
-            "CCI Dashboard did not appear in the list of reports")
+            any(topic.get_attribute('value') == 'CCI Dashboard' for topic in topic_list),
+            "CCI Dashboard did not appear in the list of topics")
 
         # She clicks on the CCI Dashboard and she finds it shows a new summary
-        report = reports.find_element_by_id("id_report1")
-        report.click()
+        topic = topics.find_element_by_id("id_topic1")
+        topic.click()
         summary = self.browser.find_element_by_id("id_summary")
         title = summary.find_element_by_tag_name("h2")
         self.assertEqual(
@@ -40,9 +40,9 @@ class NewVisitorTest(unittest.TestCase):
         )
 
         # She clicks on the CCI Suite button and she finds it shows a new summary again
-        reports = self.browser.find_element_by_id('reports')
-        report = reports.find_element_by_id("id_report2")
-        report.click()
+        topics = self.browser.find_element_by_id('topics')
+        topic = topics.find_element_by_id("id_topic2")
+        topic.click()
         summary = self.browser.find_element_by_id("id_summary")
         title = summary.find_element_by_tag_name("h2")
         self.assertEqual(
@@ -50,10 +50,10 @@ class NewVisitorTest(unittest.TestCase):
             "CCI C-Suite did not appear in the summary -- its text was:\n%s" % (title.text,)
         )
 
-        # She selects the "CCI Dashboard report" and finds a summary on the consumer confidence index
-        reports = self.browser.find_element_by_id('reports')
-        report = reports.find_element_by_id("id_report1")
-        report.click()
+        # She selects the "CCI Dashboard topic" and finds a summary on the consumer confidence index
+        topics = self.browser.find_element_by_id('topics')
+        topic = topics.find_element_by_id("id_topic1")
+        topic.click()
         text = self.browser.find_element_by_tag_name("p").text
         self.assertIn("CCI Dashboard",text,"CCI Dashboard has no summary")
 

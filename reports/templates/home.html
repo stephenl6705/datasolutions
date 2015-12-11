@@ -16,14 +16,14 @@
 <div class="container-fluid">
     <section class="boxes row">
         <div id="id_summary" class= "box_quote col-md-5">
-            <h2>{{ report_summary }}</h2>
+            <h2>{{ topic_summary }}</h2>
             <blockquote><p class="lead"></p></blockquote>
         </div>
-        <div class= "box_reports col-md-2">
-            <div id="reports">
+        <div class= "box_topics col-md-2">
+            <div id="topics">
                 <form method="POST">
-                    <input name="report" id="id_report1" type="submit" class="btn btn-info btn-block" value="CCI Dashboard">
-                    <input name="report" id="id_report2" type="submit" class="btn btn-info btn-block" value="CCI C-Suite">
+                    <input name="topic" id="id_topic1" type="submit" class="btn btn-info btn-block" value="CCI Dashboard">
+                    <input name="topic" id="id_topic2" type="submit" class="btn btn-info btn-block" value="CCI C-Suite">
                     {% csrf_token %}
                 </form>
             </div>
