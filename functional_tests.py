@@ -26,16 +26,17 @@ class NewVisitorTest(unittest.TestCase):
         reports = self.browser.find_element_by_id('reports')
         report_list = reports.find_elements_by_tag_name('input')
         self.assertTrue(
-            any(report.get_attribute('value') == 'CCI Dashboard' for report in report_list))
+            any(report.get_attribute('value') == 'CCI Dashboard' for report in report_list),
+            "CCI Dashboard did not appear in the list of reports")
 
-        # She clicks on the CCI Dashboard and she finds it shows a new chart
+        # She clicks on the CCI Dashboard and she finds it shows a new summary
         report = reports.find_element_by_id("id_report1")
         report.click()
         summary = self.browser.find_element_by_id("id_summary")
         title = summary.find_element_by_tag_name("h1")
-        self.assertEqual(title.text,"CCI Dashboard")
+        self.assertEqual(title.text,"CCI Dashboard","CCI Dashboard did not appear in the summary")
 
-        # She clicks on the CCI Suite button and she finds it shows a new chart again
+        # She clicks on the CCI Suite button and she finds it shows a new summary again
         reports = self.browser.find_element_by_id('reports')
         report = reports.find_element_by_id("id_report2")
         report.click()
