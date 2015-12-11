@@ -50,7 +50,13 @@ class NewVisitorTest(unittest.TestCase):
             "CCI C-Suite did not appear in the summary -- its text was:\n%s" % (title.text,)
         )
 
-        # She selects the "Nielsen Global Survey" link
+        # She selects the "CCI Dashboard report" and finds a summary on the consumer confidence index
+        reports = self.browser.find_element_by_id('reports')
+        report = reports.find_element_by_id("id_report1")
+        report.click()
+        text = self.browser.find_element_by_tag_name("p").text
+        self.assertIn("CCI Dashboard",text,"CCI Dashboard has no summary")
+
         # and it opens up to the Nielsen Global Survey page
         # She notices the page title and the header mention Nielsen Global Survey
         # She sees a table with Nielsen Global Survey 2015 as a row
