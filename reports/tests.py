@@ -19,28 +19,53 @@ class HomePageTest(TestCase):
         expected_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_home_page_can_retrieve_a_POST_request(self):
+    def test_home_page_can_save_a_POST_request(self):
+        Topic.objects.create(title='CCI Suite', text='CCI Suite Text', selected=True)
+        Topic.objects.create(title='CCI Dashboard', text='CCI Dashboard Text', selected=False)
+
         request = HttpRequest()
         request.method = 'POST'
         request.POST['topic'] = 'CCI Dashboard'
 
-        first_topic = Topic()
-        first_topic.title = 'CCI Suite'
-        first_topic.text = 'CCI Suite Text'
-        first_topic.save()
+        response = home_page(request)
 
-        second_topic = Topic()
-        second_topic.title = 'CCI Dashboard'
-        second_topic.text = 'CCI Dashboard Text'
-        second_topic.save()
+        topic = Topic.objects.all()[1]
+        self.assertEqual(topic.selected, True)
+
+    def test_home_page_redirects_after_POST(self):
+        Topic.objects.create(title='CCI Suite', text='CCI Suite Text', selected=True)
+        Topic.objects.create(title='CCI Dashboard', text='CCI Dashboard Text', selected=False)
+
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['topic'] = 'CCI Dashboard'
 
         response = home_page(request)
 
-        expected_html = render_to_string(
-            'home.html',
-            {'topic_summary':  'CCI Dashboard', 'topic_text': 'CCI Dashboard Text',}
-        )
-        self.assertEqual(response.content.decode(), expected_html)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_home_page_only_changes_report_when_exists(self):
+        Topic.objects.create(title='CCI Suite', text='CCI Suite Text', selected=True)
+        Topic.objects.create(title='CCI Dashboard', text='CCI Dashboard Text', selected=False)
+
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['topic'] = 'Worldbank'
+
+        home_page(request)
+
+        topic = Topic.objects.all()[0]
+        self.assertEqual(topic.selected, True)
+
+    def test_home_page_displays_selected_topic_info(self):
+        Topic.objects.create(title='CCI Suite', text='CCI Suite Text', selected=True)
+        Topic.objects.create(title='CCI Dashboard', text='CCI Dashboard Text', selected=False)
+
+        request = HttpRequest()
+        response = home_page(request)
+
+        self.assertIn('CCI Suite Text', response.content.decode())
 
 
 class TopicModelTest(TestCase):
