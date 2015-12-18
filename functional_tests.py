@@ -29,7 +29,7 @@ class NewVisitorTest(unittest.TestCase):
             any(topic.get_attribute('value') == 'CCI Dashboard' for topic in topic_list),
             "CCI Dashboard did not appear in the list of topics")
 
-        # She clicks on the CCI Dashboard and she finds it shows a new summary
+        # She clicks on the CCI Dashboard and she finds it shows a new title
         topic = topics.find_element_by_id("id_topic1")
         topic.click()
         summary = self.browser.find_element_by_id("id_summary")
@@ -39,7 +39,7 @@ class NewVisitorTest(unittest.TestCase):
             "CCI Dashboard did not appear in the summary -- its text was:\n%s" % (title.text,)
         )
 
-        # She clicks on the CCI Suite button and she finds it shows a new summary again
+        # She clicks on the CCI Suite button and she finds it shows a new title again
         topics = self.browser.find_element_by_id('topics')
         topic = topics.find_element_by_id("id_topic2")
         topic.click()
